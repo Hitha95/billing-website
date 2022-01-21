@@ -1,0 +1,4 @@
+export const REGISTER_A_USER = "REGISTER_A_USER";
+export const LOGIN_A_USER = "LOGIN_A_USER";
+export const LOGOUT_A_USER = "LOGOUT_A_USER";
+export const GET_USER_INFORMATION = "GET_USER_INFORMATION";

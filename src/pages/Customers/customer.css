@@ -1,0 +1,28 @@
+.main-container {
+  margin-left: var(--navbar-width);
+  padding: 2rem;
+}
+
+.main-container-action {
+  display: flex;
+}
+
+.main-container-action input {
+  margin: 0.5rem 0.5rem 0.5rem 2rem;
+  padding-left: 0.5rem;
+  width: 50%;
+}
+
+.create-btn {
+  display: flex;
+}
+
+.form-modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: 50%;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
