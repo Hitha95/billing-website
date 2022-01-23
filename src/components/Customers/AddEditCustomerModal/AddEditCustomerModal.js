@@ -2,7 +2,11 @@ import "./add-edit-cutomermodal.css";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import validator from "validator";
-import { asyncCreateCustomer } from "../../../redux/actions/customerActions";
+import {
+  asyncCreateCustomer,
+  asyncGetAllCustomers,
+  aysncUpdateCustomer,
+} from "../../../redux/actions/customerActions";
 
 const AddEditCustomerModal = ({ closeModal, text, previousData }) => {
   const [formData, setFormData] = useState({
@@ -53,9 +57,9 @@ const AddEditCustomerModal = ({ closeModal, text, previousData }) => {
       setFormErrors({});
       if (text === "ADD") {
         console.log("add", formData);
-        //dispatch(asyncCreateCustomer(formData));
+        dispatch(asyncCreateCustomer(formData));
       } else if (text === "EDIT") {
-        console.log("edit", formData);
+        dispatch(aysncUpdateCustomer(formData, previousData._id));
       }
 
       closeModal();

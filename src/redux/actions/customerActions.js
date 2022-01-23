@@ -35,10 +35,51 @@ export const asyncCreateCustomer = (customerData) => {
   };
 };
 
+export const aysncUpdateCustomer = (editedData, customerId) => {
+  return (dispatch) => {
+    axiosInstance
+      .put(`customers/${customerId}`, editedData, config)
+      .then((response) => {
+        let result = response.data;
+        dispatch(updateCustomer(result));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const asyncDeleteCustomer = (customerId) => {
+  return (dispatch) => {
+    axiosInstance
+      .delete(`customers/${customerId}`, config)
+      .then((response) => {
+        dispatch(deleteCustomer(customerId));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
 export const createCustomer = (customerData) => {
   return {
     type: customersActionTypes.CREATE_CUSTOMER,
     payload: customerData,
+  };
+};
+
+export const updateCustomer = (customerData) => {
+  return {
+    type: customersActionTypes.UPDATE_CUSTOMER,
+    payload: customerData,
+  };
+};
+
+export const getAllCustomers = (customers) => {
+  return {
+    type: customersActionTypes.GET_ALL_CUSTOMERS,
+    payload: customers,
   };
 };
 
@@ -53,19 +94,5 @@ export const getCustomer = (customerId) => {
   return {
     type: customersActionTypes.GET_CUSTOMER,
     payload: customerId,
-  };
-};
-
-export const updateCustomer = (customerId) => {
-  return {
-    type: customersActionTypes.UPDATE_CUSTOMER,
-    payload: customerId,
-  };
-};
-
-export const getAllCustomers = (customers) => {
-  return {
-    type: customersActionTypes.GET_ALL_CUSTOMERS,
-    payload: customers,
   };
 };

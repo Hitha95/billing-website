@@ -4,18 +4,34 @@ import { useState } from "react";
 import ProductsTable from "../../components/Products/ProductsTable/ProductsTable";
 import AddEditProductModal from "../../components/Products/AddEditProductModal/AddEditProductModal";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { asyncGetAllProducts } from "../../redux/actions/productActions";
 
 const Products = () => {
   const [searchString, setSearchString] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
-  const products = useSelector((state) => state.products.products);
-  function openModal() {
+  const [text, setText] = useState("");
+  const [previousData, setPreviousData] = useState({});
+  const products = useSelector((state) => state.products.allProducts);
+  const dispatch = useDispatch();
+  // dispatch(asyncGetAllProducts());
+  const openModal = () => {
     setIsOpen(true);
-  }
-  function closeModal() {
+  };
+  const closeModal = () => {
     setIsOpen(false);
-  }
+  };
+
+  const handleAdd = () => {
+    openModal();
+    setText("ADD");
+    setPreviousData({});
+  };
+
+  const filteredProducts = products.filter((product) => {
+    return product.name.toLowerCase().includes(searchString);
+  });
+
   return (
     <div className="main-container">
       <Modal
@@ -25,10 +41,14 @@ const Products = () => {
         className="form-modal-container"
         contentLabel="Example Modal"
       >
-        <AddEditProductModal closeModal={closeModal} />
+        <AddEditProductModal
+          closeModal={closeModal}
+          text={text}
+          previousData={previousData}
+        />
       </Modal>
       <div className="main-container-action">
-        <button className="btn secondary create-btn" onClick={openModal}>
+        <button className="btn secondary create-btn" onClick={handleAdd}>
           <AiOutlinePlus /> New Product
         </button>
         <input
@@ -37,11 +57,16 @@ const Products = () => {
           onChange={(e) => {
             setSearchString(e.target.value);
           }}
-          placeholder="Enter product name"
+          placeholder="Search by product name"
         />
       </div>
 
-      <ProductsTable products={products} />
+      <ProductsTable
+        filteredProducts={filteredProducts}
+        openModal={openModal}
+        setPreviousData={setPreviousData}
+        setText={setText}
+      />
       <div>
         <button disabled>Export to csv</button>
       </div>

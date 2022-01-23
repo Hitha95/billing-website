@@ -13,10 +13,9 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector, useDispatch } from "react-redux";
-//import { asyncDeleteCustomer } from "../redux/actions/customersAction";
 import { getComparator, sortedRowInformation } from "../../../helperFuntions";
-import AddEditCustomerModal from "../AddEditCustomerModal/AddEditCustomerModal";
-let previousData = {};
+import { asyncDeleteCustomer } from "../../../redux/actions/customerActions";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -34,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 
 const CustomersTable = ({
   filteredCustomers,
-  closeModal,
   openModal,
   setPreviousData,
   setText,
@@ -51,18 +49,12 @@ const CustomersTable = ({
   const token = useSelector((state) => state.user.token);
   const customers = useSelector((state) => state.customers.allCustomers);
   const dispatch = useDispatch();
-  const deleteCustomer = (id) => {
-    const confirm = window.confirm("Are you sure?");
-    if (confirm) {
-      //  dispatch(asyncDeleteCustomer(id, token));
-      alert("delete");
-    }
-  };
 
   const createSortHandler = (property) => (event) => {
     const isAscending = valueToOrderBy === property && orderDirection === "asc";
     setValueToOrderBy(property);
     setOrderDirection(isAscending ? "desc" : "asc");
+    setPage(0);
   };
   const handleChangePage = (e, newPage) => {
     setPage(newPage);
@@ -74,9 +66,14 @@ const CustomersTable = ({
 
   const handleEdit = (customerData) => {
     openModal();
-    //setEditCustomer({ ...customerData });
     setPreviousData(customerData);
     setText("EDIT");
+  };
+  const handleDelete = (customerId) => {
+    const confirm = window.confirm("Are you sure?");
+    if (confirm) {
+      dispatch(asyncDeleteCustomer(customerId));
+    }
   };
 
   return (
@@ -153,14 +150,14 @@ const CustomersTable = ({
                   getComparator(orderDirection, valueToOrderBy)
                 )
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((cust, i) => (
-                    <TableRow key={cust._id} className={classes.button}>
+                  .map((customer, i) => (
+                    <TableRow key={customer._id} className={classes.button}>
                       <TableCell>{id++}</TableCell>
-                      <TableCell>{cust.name}</TableCell>
-                      <TableCell>{cust.email}</TableCell>
-                      <TableCell>{cust.mobile}</TableCell>
+                      <TableCell>{customer.name}</TableCell>
+                      <TableCell>{customer.email}</TableCell>
+                      <TableCell>{customer.mobile}</TableCell>
                       <TableCell>
-                        {new Date(cust.createdAt).toLocaleString("en")}
+                        {new Date(customer.createdAt).toLocaleString("en")}
                       </TableCell>
                       <TableCell>
                         <Button
@@ -169,7 +166,7 @@ const CustomersTable = ({
                           variant="contained"
                           color="primary"
                           onClick={() => {
-                            handleEdit(cust);
+                            handleEdit(customer);
                           }}
                         >
                           edit
@@ -180,7 +177,7 @@ const CustomersTable = ({
                           variant="contained"
                           color="secondary"
                           onClick={() => {
-                            deleteCustomer(cust._id);
+                            handleDelete(customer._id);
                           }}
                         >
                           delete

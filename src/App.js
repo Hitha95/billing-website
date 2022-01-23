@@ -11,15 +11,16 @@ import { asyncGetAllProducts } from "./redux/actions/productActions";
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  let token = localStorage.getItem("billing-token") || "";
   dispatch(asyncGetAllCustomers());
   dispatch(asyncGetAllProducts());
   return (
     <>
       <Header />
-      {/*  {user.token && <Navbar />}
-      {user.token && <AccountTopbar />} */}
-      <Navbar />
-      <AccountTopbar />
+      {token && <Navbar />}
+      {token && <AccountTopbar />}
+      {/* <Navbar />
+      <AccountTopbar /> */}
       <AllRoutes />
       <Footer />
     </>

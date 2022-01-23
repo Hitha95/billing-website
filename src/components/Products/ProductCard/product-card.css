@@ -1,0 +1,26 @@
+.product-card {
+  margin: 0.7rem;
+  padding: 0.6rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 10px;
+  min-width: 120px;
+}
+
+/* .product-card:hover {
+  background: lightgray;
+} */
+
+.product-card > h2 {
+  margin: 1rem;
+  text-align: center;
+  color: var(--primary-color);
+}
+
+.product-card > p {
+  text-align: center;
+}
+
+.product-card > div {
+  font-size: 0.8rem;
+  /* width: 75px; */
+}

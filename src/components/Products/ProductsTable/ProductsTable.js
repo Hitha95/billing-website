@@ -14,6 +14,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector, useDispatch } from "react-redux";
 import { getComparator, sortedRowInformation } from "../../../helperFuntions";
+import { asyncDeleteProduct } from "../../../redux/actions/productActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,15 +29,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProductsTable = ({ products }) => {
+const ProductsTable = ({
+  filteredProducts,
+  openModal,
+  setPreviousData,
+  setText,
+}) => {
   const classes = useStyles();
-  const rowInformation = products;
-  const token = useSelector((state) => state.token);
+  const rowInformation = filteredProducts;
+  const products = useSelector((state) => state.products.allProducts);
   const dispatch = useDispatch();
-  const deleteProduct = (id) => {
+  const handleDelete = (productId) => {
     const confirm = window.confirm("Are you sure?");
     if (confirm) {
-      // dispatch(asyncDeleteProduct(id, token));
+      dispatch(asyncDeleteProduct(productId));
     }
   };
 
@@ -49,6 +55,7 @@ const ProductsTable = ({ products }) => {
     const isAscending = valueToOrderBy === property && orderDirection === "asc";
     setValueToOrderBy(property);
     setOrderDirection(isAscending ? "desc" : "asc");
+    setPage(0);
   };
   const handleChangePage = (e, newPage) => {
     setPage(newPage);
@@ -57,12 +64,24 @@ const ProductsTable = ({ products }) => {
     setRowsPerPage(parseInt(e.target.value), 10);
     setPage(0);
   };
+
+  const handleEdit = (productData) => {
+    openModal();
+    setText("EDIT");
+    setPreviousData({ ...productData, price: productData.price.toString() });
+  };
+
   return (
     <div style={{ paddingLeft: "10px" }}>
-      {rowInformation.length === 0 ? (
+      {products.length === 0 ? (
         <div>
           <br />
           <span>No products here...Add now!</span>
+        </div>
+      ) : filteredProducts.length === 0 ? (
+        <div>
+          <br />
+          <span>No products matched your search!</span>
         </div>
       ) : (
         <div>
@@ -94,7 +113,17 @@ const ProductsTable = ({ products }) => {
                       price
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell key="createdAt">Created At</TableCell>
+                  <TableCell key="createdAt">
+                    <TableSortLabel
+                      active={valueToOrderBy === "createdAt"}
+                      direction={
+                        valueToOrderBy === "createdAt" ? orderDirection : "asc"
+                      }
+                      onClick={createSortHandler("createdAt")}
+                    >
+                      Created At
+                    </TableSortLabel>
+                  </TableCell>
                   <TableCell key="action">Action</TableCell>
                 </TableRow>
               </TableHead>
@@ -104,19 +133,23 @@ const ProductsTable = ({ products }) => {
                   getComparator(orderDirection, valueToOrderBy)
                 )
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((prod, i) => (
-                    <TableRow key={prod._id}>
+                  .map((product, i) => (
+                    <TableRow key={product._id}>
                       <TableCell>{i + 1}</TableCell>
-                      <TableCell>{prod.name}</TableCell>
-                      <TableCell>{prod.price}</TableCell>
-                      <TableCell>{prod.createdAt}</TableCell>
+                      <TableCell>{product.name}</TableCell>
+                      <TableCell>{product.price}</TableCell>
+                      <TableCell>
+                        {new Date(product.createdAt).toLocaleString("en")}
+                      </TableCell>
                       <TableCell>
                         <Button
                           size="small"
                           fontSize="small"
                           variant="contained"
                           color="primary"
-                          //onClick={()=>{deleteCustomer(cust._id)}}
+                          onClick={() => {
+                            handleEdit(product);
+                          }}
                         >
                           edit
                         </Button>
@@ -125,13 +158,12 @@ const ProductsTable = ({ products }) => {
                           fontSize="small"
                           variant="contained"
                           color="secondary"
-                          /*  onClick={() => {
-                            deleteProduct(prod._id);
-                          }} */
+                          onClick={() => {
+                            handleDelete(product._id);
+                          }}
                         >
                           delete
                         </Button>
-                        {/* <button onClick={()=>{deleteCustomer(prod._id)}}>delete</button> */}
                       </TableCell>
                     </TableRow>
                   ))}

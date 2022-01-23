@@ -1,0 +1,6 @@
+.products-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1rem;
+  margin-bottom: var(--footer-height);
+}

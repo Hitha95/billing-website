@@ -1,7 +1,8 @@
 import * as productsActionTypes from "../constants/productConstants";
 
 const PRODUCTS_INITIAL_STATE = {
-  products: [],
+  allProducts: [],
+  oneProduct: {},
 };
 
 export const productsReducer = (
@@ -11,30 +12,36 @@ export const productsReducer = (
   switch (type) {
     case productsActionTypes.CREATE_PRODUCT: {
       let stateCopy = { ...state };
+      stateCopy.allProducts = [{ ...payload }, ...stateCopy.allProducts];
       return stateCopy;
     }
     case productsActionTypes.DELETE_PRODUCT: {
       let stateCopy = { ...state };
-      return stateCopy;
-    }
-    case productsActionTypes.GET_PRODUCT: {
-      let stateCopy = { ...state };
+      stateCopy.allProducts = stateCopy.allProducts.filter((product) => {
+        return product._id !== payload;
+      });
       return stateCopy;
     }
     case productsActionTypes.UPDATE_PRODUCT: {
       //payload: product
       let stateCopy = { ...state };
-      stateCopy.products = stateCopy.products.map((product) => {
-        if (product._id === payload._id) {
-          return payload;
-        } else {
-          return product;
-        }
+      stateCopy.allProducts = stateCopy.allProducts.map((product) => {
+        return product._id === payload._id ? payload : product;
       });
       return stateCopy;
     }
+    case productsActionTypes.GET_PRODUCT: {
+      //payload: id
+      let stateCopy = { ...state };
+      stateCopy.oneProduct = stateCopy.allProducts.find((product) => {
+        return product._id === payload;
+      });
+      return stateCopy;
+    }
+
     case productsActionTypes.GET_ALL_PRODUCTS: {
-      let stateCopy = { ...state, products: [...payload] };
+      let stateCopy = { ...state };
+      stateCopy.allProducts = [...payload];
       return stateCopy;
     }
     default: {

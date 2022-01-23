@@ -4,6 +4,7 @@
   justify-content: flex-end;
   align-items: center;
   width: 100%;
+  border-bottom-color: black;
 }
 .user-info-topbar div {
   height: 100%;
@@ -11,7 +12,34 @@
   margin-right: 10px;
   display: flex;
   align-items: center;
+  border-bottom-color: black;
 }
 .user-name {
   flex: 3;
+}
+
+.information {
+  position: relative;
+}
+
+.account-settings-dropdown {
+  visibility: hidden;
+  position: absolute;
+  margin-top: 100px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.account-settings-dropdown p {
+  margin: 0;
+  padding: 0.5rem 0.7rem;
+}
+
+.account-settings-dropdown p:hover {
+  background: lightgray;
+}
+
+.account-settings-dropdown a {
+  color: black;
 }

@@ -4,7 +4,8 @@ import { useState } from "react";
 import CustomersTable from "../../components/Customers/CustomersTable/CustomersTable";
 import AddEditCustomerModal from "../../components/Customers/AddEditCustomerModal/AddEditCustomerModal";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { asyncGetAllCustomers } from "../../redux/actions/customerActions";
 
 const Customers = () => {
   const customers = useSelector((state) => state.customers.allCustomers);
@@ -12,6 +13,8 @@ const Customers = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [text, setText] = useState("");
   const [previousData, setPreviousData] = useState({});
+  const dispatch = useDispatch();
+  // dispatch(asyncGetAllCustomers());
   function openModal() {
     setIsOpen(true);
   }
@@ -62,7 +65,6 @@ const Customers = () => {
 
       <CustomersTable
         filteredCustomers={filteredCustomers}
-        closeModal={closeModal}
         openModal={openModal}
         setPreviousData={setPreviousData}
         setText={setText}

@@ -14,15 +14,23 @@ export const customersReducer = (
       stateCopy.allCustomers = [...stateCopy.allCustomers, { ...payload }];
       return stateCopy;
     }
+    case customersActionTypes.UPDATE_CUSTOMER: {
+      let stateCopy = { ...state };
+      stateCopy.allCustomers = stateCopy.allCustomers.map((customer) => {
+        return customer._id === payload._id ? payload : customer;
+      });
+      return stateCopy;
+    }
     case customersActionTypes.DELETE_CUSTOMER: {
       let stateCopy = { ...state };
+      stateCopy.allCustomers = stateCopy.allCustomers.filter((customer) => {
+        if (customer._id !== payload) {
+          return payload;
+        }
+      });
       return stateCopy;
     }
     case customersActionTypes.GET_CUSTOMER: {
-      let stateCopy = { ...state };
-      return stateCopy;
-    }
-    case customersActionTypes.UPDATE_CUSTOMER: {
       let stateCopy = { ...state };
       return stateCopy;
     }

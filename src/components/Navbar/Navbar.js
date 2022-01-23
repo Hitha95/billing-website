@@ -4,6 +4,7 @@ import {
   RiBillFill,
   RiDashboardFill,
   RiShoppingBag3Fill,
+  RiShoppingCart2Fill,
 } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 
@@ -21,16 +22,6 @@ const Navbar = () => {
         >
           <RiDashboardFill />
           <div>DASHBOARD</div>
-        </div>
-      </Link>
-      <Link to="/shop">
-        <div
-          className={
-            location.pathname === "/shop" ? "active navbar-item" : "navbar-item"
-          }
-        >
-          <RiShoppingBag3Fill />
-          <div>SHOP</div>
         </div>
       </Link>
 
@@ -57,6 +48,28 @@ const Navbar = () => {
         >
           <BsInboxesFill />
           <div>PRODUCTS</div>
+        </div>
+      </Link>
+
+      <Link to="/shop">
+        <div
+          className={
+            location.pathname === "/shop" ? "active navbar-item" : "navbar-item"
+          }
+        >
+          <RiShoppingBag3Fill />
+          <div>SHOP</div>
+        </div>
+      </Link>
+
+      <Link to="/cart">
+        <div
+          className={
+            location.pathname === "/cart" ? "active navbar-item" : "navbar-item"
+          }
+        >
+          <RiShoppingCart2Fill />
+          <div>CART</div>
         </div>
       </Link>
 
