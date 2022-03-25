@@ -1,6 +1,15 @@
 import * as userActionTypes from "../constants/userConstants";
 import { axiosInstance1, axiosInstance } from "../../axios";
 import axios from "axios";
+import { asyncGetAllCustomers } from "./customerActions";
+import { asyncGetAllProducts } from "./productActions";
+
+let config = {
+  headers: {
+    Authorization: "Bearer " + localStorage.getItem("billing-token"),
+  },
+};
+
 export const registerUser = (registerData) => {
   return {
     type: userActionTypes.REGISTER_A_USER,
@@ -66,11 +75,14 @@ export const asyncLoginUser = (loginData, setformErrors, navigate) => {
           error.serverErrors = "invalid email or password";
           setformErrors(error);
         } else {
-          dispatch(loginUser(result.token));
+          //dispatch(loginUser(result.token));
           JSON.stringify(localStorage.setItem("billing-token", result.token));
-
-          dispatch(asyncGetUserInformation());
-          navigate("/dashboard");
+          // window.location.reload();
+          /*  if (JSON.parse(localStorage.getItem("billing-token"))) {
+            dispatch(asyncGetAllCustomers());
+            dispatch(asyncGetAllProducts());
+            dispatch(asyncGetUserInformation());
+          } */
         }
       })
       .catch((error) => {
@@ -83,11 +95,7 @@ export const asyncGetUserInformation = () => {
   console.log("hello");
   return (dispatch) => {
     axiosInstance
-      .get("users/account", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("billing-token"),
-        },
-      })
+      .get("users/account", config)
       .then((response) => {
         let result = response.data;
         dispatch(getUserInformation(result));

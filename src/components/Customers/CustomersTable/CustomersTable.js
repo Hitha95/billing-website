@@ -152,7 +152,7 @@ const CustomersTable = ({
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((customer, i) => (
                     <TableRow key={customer._id} className={classes.button}>
-                      <TableCell>{id++}</TableCell>
+                      <TableCell>{i + 1 + page * rowsPerPage}</TableCell>
                       <TableCell>{customer.name}</TableCell>
                       <TableCell>{customer.email}</TableCell>
                       <TableCell>{customer.mobile}</TableCell>

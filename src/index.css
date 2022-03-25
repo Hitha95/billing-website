@@ -50,6 +50,13 @@ code {
   background: var(--primary-color);
 }
 
+/* .disabled {
+  border: 1px solid gray;
+  color: white;
+  background: gray;
+  cursor: not-allowed;
+}
+ */
 .secondary:hover {
   border: 1px solid var(--primary-color);
   color: var(--primary-color);

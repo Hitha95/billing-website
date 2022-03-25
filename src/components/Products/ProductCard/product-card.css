@@ -1,9 +1,9 @@
 .product-card {
-  margin: 0.7rem;
+  margin: 0.7rem 0.7rem 1.1rem 0.7rem;
   padding: 0.6rem;
   border: 1px solid var(--primary-color);
   border-radius: 10px;
-  min-width: 120px;
+  min-width: 150px;
 }
 
 /* .product-card:hover {
@@ -20,7 +20,9 @@
   text-align: center;
 }
 
-.product-card > div {
+.product-card > button {
   font-size: 0.8rem;
+  display: flex;
+  margin: auto;
   /* width: 75px; */
 }

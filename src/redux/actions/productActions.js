@@ -1,6 +1,5 @@
 import * as productsActionTypes from "../constants/productConstants";
 import { axiosInstance } from "../../axios";
-import { deleteCustomer } from "./customerActions";
 
 let config = {
   headers: {
@@ -14,6 +13,7 @@ export const asyncGetAllProducts = () => {
       .get("products", config)
       .then((response) => {
         let result = response.data;
+        console.log("products");
         dispatch(getAllProducts(result));
       })
       .catch((err) => {

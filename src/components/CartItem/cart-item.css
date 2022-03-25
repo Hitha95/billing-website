@@ -1,0 +1,20 @@
+.cart-item-container {
+  margin: 0.7rem 0.7rem 1.1rem 0.7rem;
+  padding: 0.6rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart-item-action {
+  height: 25px;
+  background: var(--primary-color);
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+}

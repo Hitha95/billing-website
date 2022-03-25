@@ -2,8 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import validator from "validator";
-import { asyncLoginUser } from "../../redux/actions/userActions";
+import {
+  asyncGetUserInformation,
+  asyncLoginUser,
+} from "../../redux/actions/userActions";
 import { useDispatch } from "react-redux";
+import { asyncGetAllCustomers } from "../../redux/actions/customerActions";
+import { asyncGetAllProducts } from "../../redux/actions/productActions";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -39,6 +44,13 @@ const SignUp = () => {
     if (Object.keys(errors).length === 0) {
       setformErrors({});
       dispatch(asyncLoginUser(formData, setformErrors, navigate));
+      //window.location.reload();
+      if (Object.keys(formErrors).length === 0) {
+        dispatch(asyncGetAllCustomers());
+        dispatch(asyncGetAllProducts());
+        dispatch(asyncGetUserInformation());
+        navigate("/dashboard");
+      }
     } else {
       setformErrors(errors);
       console.log(errors);

@@ -1,7 +1,7 @@
 import * as billsActionTypes from "../constants/billConstants";
 
 const BILLS_INITIAL_STATE = {
-  bills: [],
+  allBills: [],
 };
 
 export const billsReducer = (
@@ -12,13 +12,13 @@ export const billsReducer = (
     case billsActionTypes.CREATE_BILL: {
       //payload: one bill object
       let stateCopy = { ...state };
-      stateCopy.bills = [...stateCopy.bills, { ...payload }];
+      stateCopy.allBills = [...stateCopy.allBills, { ...payload }];
       return stateCopy;
     }
     case billsActionTypes.DELETE_BILL: {
       //payload:id
       let stateCopy = { ...state };
-      stateCopy.bills = stateCopy.bills.filter((bill) => {
+      stateCopy.allBills = stateCopy.allBills.filter((bill) => {
         return bill._id !== payload;
       });
       return stateCopy;
@@ -29,9 +29,9 @@ export const billsReducer = (
       return stateCopy;
     }
     case billsActionTypes.GET_ALL_BILLS: {
-      //payload: all bills
+      //payload: all allBills
       let stateCopy = { ...state };
-      return { ...stateCopy, bills: [...payload] };
+      return { ...stateCopy, allBills: [...payload] };
     }
     default: {
       return state;

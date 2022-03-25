@@ -135,7 +135,7 @@ const ProductsTable = ({
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((product, i) => (
                     <TableRow key={product._id}>
-                      <TableCell>{i + 1}</TableCell>
+                      <TableCell>{i + 1 + page * rowsPerPage}</TableCell>
                       <TableCell>{product.name}</TableCell>
                       <TableCell>{product.price}</TableCell>
                       <TableCell>

@@ -6,6 +6,7 @@ import AddEditProductModal from "../../components/Products/AddEditProductModal/A
 import { AiOutlinePlus } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { asyncGetAllProducts } from "../../redux/actions/productActions";
+import { CSVLink } from "react-csv";
 
 const Products = () => {
   const [searchString, setSearchString] = useState("");
@@ -31,6 +32,22 @@ const Products = () => {
   const filteredProducts = products.filter((product) => {
     return product.name.toLowerCase().includes(searchString);
   });
+
+  const headerKeys = ["_id", "name", "price", "createdAt", "updatedAt"];
+
+  const data = products.map((product) => {
+    let row = {};
+    row = headerKeys.map((key) => {
+      if (key === "createdAt" || key === "updatedAt")
+        return (row[key] = new Date(product[key]).toLocaleString("en"));
+      else {
+        return (row[key] = product[key]);
+      }
+    });
+    return row;
+  });
+
+  data.unshift(["Product ID", "Name", "Price", "Created At", "Last Updated"]);
 
   return (
     <div className="main-container">
@@ -68,7 +85,9 @@ const Products = () => {
         setText={setText}
       />
       <div>
-        <button disabled>Export to csv</button>
+        <CSVLink data={data} filename={"Products-file.csv"} target="_blank">
+          <button className="btn secondary">Export to CSV</button>
+        </CSVLink>
       </div>
     </div>
   );

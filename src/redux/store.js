@@ -5,6 +5,7 @@ import { userReducer } from "./reducers/userReducer";
 import { customersReducer } from "./reducers/customersReducer";
 import { productsReducer } from "./reducers/productsReducer";
 import { billsReducer } from "./reducers/billsReducer";
+import { shopReducer } from "./reducers/shopReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 const reducer = combineReducers({
@@ -12,7 +13,8 @@ const reducer = combineReducers({
   user: userReducer,
   customers: customersReducer,
   products: productsReducer,
-  billd: billsReducer,
+  bills: billsReducer,
+  shop: shopReducer,
 });
 
 const initialState = {};

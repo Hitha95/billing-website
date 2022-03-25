@@ -1,10 +1,12 @@
 .main-container {
   margin-left: var(--navbar-width);
   padding: 2rem;
+  margin-bottom: var(--footer-height);
 }
 
 .main-container-action {
   display: flex;
+  padding-bottom: 1rem;
 }
 
 .main-container-action input {

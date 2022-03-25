@@ -13,6 +13,7 @@ export const asyncGetAllCustomers = () => {
       .get("customers", config)
       .then((response) => {
         let result = response.data;
+        console.log("customers");
         dispatch(getAllCustomers(result));
       })
       .catch((err) => {

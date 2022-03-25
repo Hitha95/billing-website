@@ -1,0 +1,14 @@
+.cart-container {
+  margin-left: var(--navbar-width);
+}
+
+.cart-container img {
+  display: flex;
+  margin: auto;
+  width: 35rem;
+}
+
+.cart-items-list {
+  display: flex;
+  flex-wrap: wrap;
+}

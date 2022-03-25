@@ -1,13 +1,11 @@
 import "./products-list.css";
 import ProductCard from "../ProductCard/ProductCard";
-import { useSelector } from "react-redux";
 
-const ProductsList = () => {
-  const products = useSelector((state) => state.products.allProducts);
+const ProductsList = ({ filtertedProducts }) => {
   return (
     <div className="products-list">
-      {products.map((product) => {
-        return <ProductCard product={product} />;
+      {filtertedProducts.map((product) => {
+        return <ProductCard key={product._id} product={product} />;
       })}
     </div>
   );

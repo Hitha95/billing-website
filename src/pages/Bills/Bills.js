@@ -14,8 +14,19 @@ const Bills = () => {
   function closeModal() {
     setIsOpen(false);
   }
+  const handleGenerateBill = () => {
+    console.log("hello");
+  };
   return (
     <div className="main-container">
+      <div className="main-container-action">
+        <button
+          className="btn secondary create-btn"
+          onClick={handleGenerateBill}
+        >
+          <AiOutlinePlus /> GENERATE BILL
+        </button>
+      </div>
       <BillsTable />
       <div>
         <button disabled>Export to csv</button>

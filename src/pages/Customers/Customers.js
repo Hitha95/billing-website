@@ -1,20 +1,25 @@
 import "./customer.css";
 import Modal from "react-modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomersTable from "../../components/Customers/CustomersTable/CustomersTable";
 import AddEditCustomerModal from "../../components/Customers/AddEditCustomerModal/AddEditCustomerModal";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { asyncGetAllCustomers } from "../../redux/actions/customerActions";
+import { CSVLink } from "react-csv";
 
 const Customers = () => {
   const customers = useSelector((state) => state.customers.allCustomers);
+  const user = useSelector((state) => state.user);
   const [searchString, setSearchString] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [text, setText] = useState("");
   const [previousData, setPreviousData] = useState({});
   const dispatch = useDispatch();
-  // dispatch(asyncGetAllCustomers());
+  /*  if (user.token) {
+    dispatch(asyncGetAllCustomers());
+  } */
+
   function openModal() {
     setIsOpen(true);
   }
@@ -34,6 +39,44 @@ const Customers = () => {
       customer.mobile.includes(searchString)
     );
   });
+
+  const headerKeys = [
+    "_id",
+    "name",
+    "mobile",
+    "email",
+    "createdAt",
+    "updatedAt",
+  ];
+
+  const data = customers.map((customer) => {
+    let row = {};
+    row = headerKeys.map((key) => {
+      if (key === "createdAt" || key === "updatedAt")
+        return (row[key] = new Date(customer[key]).toLocaleString("en"));
+      else {
+        return (row[key] = customer[key]);
+      }
+    });
+    return row;
+  });
+
+  data.unshift([
+    "Customer ID",
+    "Name",
+    "Mobile",
+    "Email",
+    "Created At",
+    "Last Updated",
+  ]);
+  console.log("data", data);
+
+  /*  const csvData = {
+    data: customers,
+    headers: headersCSV,
+    filename: "Customers_Report.csv",
+  }; */
+
   return (
     <div className="main-container">
       <Modal
@@ -70,7 +113,9 @@ const Customers = () => {
         setText={setText}
       />
       <div>
-        <button disabled>Export to csv</button>
+        <CSVLink data={data} filename={"Customers-file.csv"} target="_blank">
+          <button className="btn secondary">Export to CSV</button>
+        </CSVLink>
       </div>
     </div>
   );

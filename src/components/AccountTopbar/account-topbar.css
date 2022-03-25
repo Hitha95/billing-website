@@ -29,6 +29,7 @@
   left: 0px;
   display: flex;
   flex-direction: column;
+  z-index: 3;
 }
 
 .account-settings-dropdown p {
